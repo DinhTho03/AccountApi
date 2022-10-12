@@ -22,7 +22,7 @@ namespace CreateUserequalBcrypt.Controllers
         }
         // GET: api/<UserInfoController>
 
-        [HttpGet, Authorize]
+        [HttpGet,Authorize]
         public IActionResult Get()
         {
             

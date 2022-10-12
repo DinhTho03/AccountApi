@@ -42,9 +42,10 @@ namespace CreateUserequalBcrypt
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
+                
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -58,6 +59,16 @@ namespace CreateUserequalBcrypt
                         ValidateAudience = false
                     };
                 });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -71,6 +82,8 @@ namespace CreateUserequalBcrypt
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
+
+            app.UseCors("AllowOrigin");
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
